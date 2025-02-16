@@ -48,7 +48,7 @@ namespace flowershop_sprout
             }
             if (!IsValidPassword(password))
             {
-                MessageBox.Show("Password must be at least 8 characters long, include an uppercase letter, a digit, and a special character.");
+                MessageBox.Show("Password must be at least 6 characters long, include an uppercase letter, a digit, and a special character.");
                 return;
             }
 
@@ -118,11 +118,12 @@ namespace flowershop_sprout
         }
         private bool IsValidPassword(string password)
         {
-
+            if (password.Length < 6) {
+                return false;
+            }
             bool hasUpper = password.Any(char.IsUpper);
             bool hasDigit = password.Any(char.IsDigit);
             bool hasSpecial = password.Any(ch => !char.IsLetterOrDigit(ch));
-
             return hasUpper && hasDigit && hasSpecial;
         }
     }
