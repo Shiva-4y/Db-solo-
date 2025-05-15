@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Signup));
             panel1 = new Panel();
+            textBox1 = new TextBox();
+            comboBox1 = new ComboBox();
             pictureBox1 = new PictureBox();
             textBox3 = new TextBox();
             textBox2 = new TextBox();
@@ -43,6 +45,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(textBox3);
             panel1.Controls.Add(textBox2);
@@ -52,9 +56,24 @@
             panel1.Controls.Add(label2);
             panel1.Location = new Point(52, 61);
             panel1.Name = "panel1";
-            panel1.Size = new Size(315, 329);
+            panel1.Size = new Size(315, 405);
             panel1.TabIndex = 5;
             panel1.Paint += panel1_Paint;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(80, 267);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(180, 23);
+            textBox1.TabIndex = 11;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(81, 238);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(179, 23);
+            comboBox1.TabIndex = 10;
             // 
             // pictureBox1
             // 
@@ -77,6 +96,7 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(180, 27);
             textBox3.TabIndex = 8;
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // textBox2
             // 
@@ -115,7 +135,7 @@
             // 
             button1.FlatStyle = FlatStyle.System;
             button1.ForeColor = SystemColors.ControlText;
-            button1.Location = new Point(69, 254);
+            button1.Location = new Point(69, 336);
             button1.Name = "button1";
             button1.Size = new Size(192, 40);
             button1.TabIndex = 2;
@@ -141,7 +161,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(436, 456);
+            ClientSize = new Size(486, 603);
             Controls.Add(panel1);
             DoubleBuffered = true;
             Name = "Signup";
@@ -163,5 +183,7 @@
         private TextBox textBox3;
         private TextBox textBox2;
         private PictureBox pictureBox1;
+        private ComboBox comboBox1;
+        private TextBox textBox1;
     }
 }

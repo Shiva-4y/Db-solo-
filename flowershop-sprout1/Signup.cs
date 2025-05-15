@@ -39,27 +39,31 @@ namespace flowershop_sprout
         {
             string username = textBox3.Text;
             string password = textBox2.Text;
+            string securityQuestion = comboBox1.Text;
+            string securityAnswer = textBox1.Text;
 
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(securityAnswer))
             {
-                MessageBox.Show("Please enter both username and password.");
+                MessageBox.Show("Please fill in all fields.");
                 return;
             }
+
+            // ✅ Validate password BEFORE generating salt and hashing
             if (!IsValidPassword(password))
             {
-                MessageBox.Show("Password must be at least 6 characters long, include an uppercase letter, a digit, and a special character.");
+                MessageBox.Show("Password must be at least 8 characters long, include an uppercase letter, a digit, and a special character.");
                 return;
             }
 
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); //hash
+            string salt = BCrypt.Net.BCrypt.GenerateSalt(); // Generate salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password + salt);
 
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-
 
                     string checkQuery = "SELECT COUNT(*) FROM users WHERE username = @username";
                     using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
@@ -74,15 +78,17 @@ namespace flowershop_sprout
                         }
                     }
 
-
-                    string query = "INSERT INTO users (username, password) VALUES (@username, @password)";
+                    string query = @"INSERT INTO users (username, password, salt, security_question, security_answer)
+                             VALUES (@username, @password, @salt, @security_question, @security_answer)";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
                         cmd.Parameters.AddWithValue("@password", hashedPassword);
+                        cmd.Parameters.AddWithValue("@salt", salt);
+                        cmd.Parameters.AddWithValue("@security_question", securityQuestion);
+                        cmd.Parameters.AddWithValue("@security_answer", securityAnswer);
 
                         int result = cmd.ExecuteNonQuery();
-
                         if (result > 0)
                         {
                             MessageBox.Show("Signup Successful!");
@@ -114,17 +120,31 @@ namespace flowershop_sprout
 
         private void Signup_Load(object sender, EventArgs e)
         {
-
+            comboBox1.Items.Add("What is your pet's name?");
+            comboBox1.Items.Add("Do you love me?");
+            comboBox1.Items.Add("Would you kill if necessary?");
+            comboBox1.Items.Add("What is your favorite food?");
+            comboBox1.Items.Add("What city were you born in?");
+            comboBox1.Items.Add("Is it pink?");
+            comboBox1.SelectedIndex = 0; // Set default selection
         }
         private bool IsValidPassword(string password)
         {
-            if (password.Length < 6) {
+            if (password.Length < 8)
+            {
                 return false;
             }
             bool hasUpper = password.Any(char.IsUpper);
             bool hasDigit = password.Any(char.IsDigit);
             bool hasSpecial = password.Any(ch => !char.IsLetterOrDigit(ch));
             return hasUpper && hasDigit && hasSpecial;
+        }
+
+
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

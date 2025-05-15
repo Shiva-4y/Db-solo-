@@ -33,6 +33,7 @@
             textBox1 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
+            linkLabel2 = new LinkLabel();
             textBox2 = new TextBox();
             linkLabel1 = new LinkLabel();
             label4 = new Label();
@@ -60,7 +61,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(144, 23);
             textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
+            textBox1.UseSystemPasswordChar = true;
             // 
             // button1
             // 
@@ -74,6 +75,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(linkLabel2);
             panel1.Controls.Add(textBox2);
             panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(label4);
@@ -85,9 +87,21 @@
             panel1.Controls.Add(textBox1);
             panel1.Location = new Point(68, 61);
             panel1.Name = "panel1";
-            panel1.Size = new Size(364, 269);
+            panel1.Size = new Size(387, 268);
             panel1.TabIndex = 4;
-            panel1.Paint += panel1_Paint;
+            panel1.Paint += panel1_Paint_1;
+            // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.LinkColor = Color.Red;
+            linkLabel2.Location = new Point(261, 236);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(73, 15);
+            linkLabel2.TabIndex = 10;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Forgot pass?";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // textBox2
             // 
@@ -109,6 +123,7 @@
             linkLabel1.TabIndex = 8;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Sign-up";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // label4
             // 
@@ -167,7 +182,7 @@
             DoubleBuffered = true;
             Name = "Login";
             Text = "Login";
-            Load += Login_Load;
+            Load += Login_Load_1;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -185,5 +200,6 @@
         private Label label4;
         private CheckBox checkBox1;
         private TextBox textBox2;
+        private LinkLabel linkLabel2;
     }
 }
